@@ -35,3 +35,7 @@ mihainator-*.tar
 npm-debug.log
 /assets/node_modules/
 
+
+# IDE specific
+.idea
+.vscode
