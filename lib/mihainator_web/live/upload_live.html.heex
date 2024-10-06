@@ -1,0 +1,39 @@
+<form id="upload-form" phx-submit="save" phx-change="validate">
+    <label class="block mb-2 text-sm font-medium text-gray-900" for={@uploads.avatar.ref}>Avatar</label>
+
+    <.live_file_input upload={@uploads.avatar} class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" />
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+        Upload
+    </button>
+</form>
+
+<%!-- use phx-drop-target with the upload ref to enable file drag and drop --%>
+<section phx-drop-target={@uploads.avatar.ref}>
+    <%= for entry <- @uploads.avatar.entries do %>
+    <article class="upload-entry">
+
+        <figure>
+            <.live_img_preview entry={entry} />
+            <figcaption><%= entry.client_name %></figcaption>
+        </figure>
+
+        <%!-- entry.progress will update automatically for in-flight entries --%>
+        <progress value={entry.progress} max="100"> <%= entry.progress %>% </progress>
+
+        <%!-- a regular click event whose handler will invoke Phoenix.LiveView.cancel_upload/3 --%>
+        <button type="button" phx-click="cancel-upload" phx-value-ref={entry.ref} aria-label="cancel">&times;</button>
+
+        <%!-- Phoenix.Component.upload_errors/2 returns a list of error atoms --%>
+        <%= for err <- upload_errors(@uploads.avatar, entry) do %>
+        <p class="alert alert-danger"><%= error_to_string(err) %></p>
+        <% end %>
+
+    </article>
+    <% end %>
+
+    <%!-- Phoenix.Component.upload_errors/1 returns a list of error atoms --%>
+    <%= for err <- upload_errors(@uploads.avatar) do %>
+    <p class="alert alert-danger"><%= error_to_string(err) %></p>
+    <% end %>
+
+</section>
