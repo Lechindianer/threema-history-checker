@@ -4,27 +4,26 @@ defmodule MihainatorWeb.UploadLive do
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
     {:ok,
-      socket
-      |> assign(:uploaded_files, [])
-      |> allow_upload(:avatar, accept: ~w(.csv .jpeg))}
+     socket
+     |> assign(:uploaded_files, [])
+     |> assign(:submit_disabled?, true)
+     |> allow_upload(:history, accept: ~w(.csv))}
   end
 
   @impl Phoenix.LiveView
   def handle_event("validate", _params, socket) do
-    {:noreply, socket}
-  end
-
-  @impl Phoenix.LiveView
-  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
-    {:noreply, cancel_upload(socket, :avatar, ref)}
+    {:noreply,
+     socket
+     |> assign(:submit_disabled?, false)}
   end
 
   @impl Phoenix.LiveView
   def handle_event("save", _params, socket) do
     uploaded_files =
-      consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-        line_count = File.stream!(path)
-        |> Enum.count()
+      consume_uploaded_entries(socket, :history, fn %{path: path}, _entry ->
+        line_count =
+          File.stream!(path)
+          |> Enum.count()
 
         IO.puts(line_count)
 
