@@ -5,7 +5,6 @@ defmodule MihainatorWeb.UploadLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:uploaded_files, [])
      |> assign(:submit_disabled?, true)
      |> allow_upload(:history, accept: ~w(.csv))}
   end
