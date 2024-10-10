@@ -19,18 +19,21 @@ defmodule MihainatorWeb.UploadLive do
 
   @impl Phoenix.LiveView
   def handle_event("save", _params, socket) do
-    uploaded_files =
-      consume_uploaded_entries(socket, :history, fn %{path: path}, _entry ->
-        line_count =
-          File.stream!(path)
-          |> Enum.count()
+    consume_uploaded_entries(socket, :history, fn %{path: path}, _entry ->
+      Task.async(fn -> Mihainator.CSVParser.start(path) end)
 
-        IO.puts(line_count)
+      {:ok, nil}
+    end)
 
-        {:ok, line_count}
-      end)
+    {:noreply, socket}
+  end
 
-    {:noreply, update(socket, :uploaded_files, &(&1 ++ uploaded_files))}
+  @impl Phoenix.LiveView
+  @spec handle_info({reference(), any()}, any()) :: {:noreply, any()}
+  def handle_info({ref, _result}, socket) do
+    Process.demonitor(ref, [:flush])
+
+    {:noreply, socket}
   end
 
   defp error_to_string(:too_large), do: "Too large"
