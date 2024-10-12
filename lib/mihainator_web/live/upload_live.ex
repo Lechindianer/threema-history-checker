@@ -29,10 +29,12 @@ defmodule MihainatorWeb.UploadLive do
 
   @impl Phoenix.LiveView
   @spec handle_info({reference(), any()}, any()) :: {:noreply, any()}
-  def handle_info({ref, _result}, socket) do
+  def handle_info({ref, result}, socket) do
     Process.demonitor(ref, [:flush])
 
-    {:noreply, socket}
+    socket = assign(socket, :calendar_dates, result)
+
+    {:noreply, push_navigate(socket, to: ~p"/result")}
   end
 
   defp error_to_string(:too_large), do: "Too large"

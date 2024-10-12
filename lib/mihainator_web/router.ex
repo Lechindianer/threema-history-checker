@@ -19,6 +19,7 @@ defmodule MihainatorWeb.Router do
 
     get "/", PageController, :home
     live "/upload", UploadLive
+    live "/result", ResultLive
   end
 
   # Other scopes may use custom stacks.
