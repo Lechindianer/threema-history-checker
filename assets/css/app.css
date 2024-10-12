@@ -12,6 +12,7 @@
     top: 200px;
 }
 
+/* Taken from https://codepen.io/alvarotrigo/pen/xxYVrmK */
 .calendar {
     display: inline-grid;
     justify-content: center;
