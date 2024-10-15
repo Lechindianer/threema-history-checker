@@ -19,7 +19,7 @@ defmodule MihainatorWeb.UploadLive do
   @impl Phoenix.LiveView
   def handle_event("save", _params, socket) do
     consume_uploaded_entries(socket, :history, fn %{path: path}, _entry ->
-      Task.async(fn -> Mihainator.CSVParser.start(path) end)
+      Task.async(fn -> Mihainator.Extractor.extract(path) end)
 
       {:ok, nil}
     end)
