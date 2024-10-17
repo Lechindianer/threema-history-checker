@@ -1,52 +1,14 @@
 <div class="flex flex-col space-y-8">
   <h1 class="text-5xl">Threema history checker</h1>
 
-  <p class="text-lg">Upload a Threema chat history file (.csv) and see who's more interactive!</p>
-
-  <form id="upload-form" phx-submit="save" phx-change="validate" class="flex flex-col space-y-4">
-    <div>
-      <label class="block mb-2 text-sm font-bold text-gray-900" for={@uploads.history.ref}>
-        CSV file
-      </label>
-
-      <.live_file_input
-        upload={@uploads.history}
-        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      />
-    </div>
-
-    <button
-      :if={@submit_disabled?}
-      disabled={@submit_disabled?}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2 place-self-end disabled:opacity-75"
-      type="submit"
-    >
-      Upload
-    </button>
-
-    <button
-      :if={not @submit_disabled?}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2 place-self-end"
-      type="submit"
-    >
-      Upload
-    </button>
-  </form>
-
-  <%= for entry <- @uploads.history.entries do %>
-    <article class="upload-entry">
-      <%!-- Phoenix.Component.upload_errors/2 returns a list of error atoms --%>
-      <%= for err <- upload_errors(@uploads.history, entry) do %>
-        <p class="alert alert-danger"><%= error_to_string(err) %></p>
-      <% end %>
-    </article>
+  <%!-- <.live_component module={MihainatorWeb.UserComponent} id="user" /> --%>
+  <%= if @has_result == false do %>
+    <.live_component module={MihainatorWeb.FileInputComponent} id="file-input" />
+  <% else %>
+    <.live_component
+      module={MihainatorWeb.ResultComponent}
+      id="result"
+      calendar_dates={@calendar_dates}
+    />
   <% end %>
-
-  <%!-- use phx-drop-target with the upload ref to enable file drag and drop --%>
-  <section phx-drop-target={@uploads.history.ref}>
-    <%!-- Phoenix.Component.upload_errors/1 returns a list of error atoms --%>
-    <%= for err <- upload_errors(@uploads.history) do %>
-      <p class="alert alert-danger"><%= error_to_string(err) %></p>
-    <% end %>
-  </section>
 </div>

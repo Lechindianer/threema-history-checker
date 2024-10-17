@@ -18,8 +18,8 @@ defmodule MihainatorWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
     live "/upload", UploadLive
-    live "/result", ResultLive
   end
 
   # Other scopes may use custom stacks.
