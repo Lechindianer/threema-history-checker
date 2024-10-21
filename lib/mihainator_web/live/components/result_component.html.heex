@@ -5,11 +5,9 @@
     <%= for month <- @months do %>
       <div class="calendar">
         <div class="month">
-          <a href="#" class="nav"><i class="fas fa-angle-left"></i></a>
           <div>
             <%= Calendar.strftime(month, "%B") %> <span class="year"><%= month.year %></span>
           </div>
-          <a href="#" class="nav"><i class="fas fa-angle-right"></i></a>
         </div>
         <div class="days">
           <span>Mon</span>
