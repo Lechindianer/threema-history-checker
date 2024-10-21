@@ -3,11 +3,27 @@ defmodule Mihainator.Extractor do
   This module will take Threema's CSV history file and parse dates / first interaction of day
   """
 
+  # TODO: unit test
+  # TODO: refactor this method
+  @spec extract(
+          binary()
+          | maybe_improper_list(
+              binary() | maybe_improper_list(any(), binary() | []) | char(),
+              binary() | []
+            )
+        ) :: %{first_date: Date.t(), interaction_data: map(), last_date: Date.t()}
   def extract(file) do
     raw_data = get_raw_data(file)
 
-    {last_date, _} = Enum.at(raw_data, -1)
-    first_date = Date.shift(last_date, year: -1)
+    last_date =
+      Enum.at(raw_data, -1)
+      |> elem(0)
+      |> Date.end_of_month()
+
+    first_date =
+      Date.shift(last_date, year: -1)
+      |> Date.beginning_of_month()
+
     date_range = Date.range(first_date, last_date)
 
     interaction_data =
@@ -15,6 +31,13 @@ defmodule Mihainator.Extractor do
       |> Enum.filter(fn {date, _} -> Date.after?(date, first_date) end)
       |> Map.new()
       |> get_normalized_interaction_data(date_range)
+      |> Enum.group_by(fn {date, _} ->
+        month =
+          Integer.to_string(date.month)
+          |> String.pad_leading(2, "0")
+
+        "#{date.year}-#{month}"
+      end)
 
     %{
       first_date: first_date,

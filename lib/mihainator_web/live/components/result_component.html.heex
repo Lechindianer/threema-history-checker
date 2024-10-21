@@ -2,13 +2,10 @@
   <p class="text-lg">This is the result of your history:</p>
 
   <div class="calendar-wrapper">
-    <%= for month <- @months do %>
+    <%= for {_, days_of_month} <- @calendar_dates.interaction_data do %>
       <div class="calendar">
-        <div class="month">
-          <div>
-            <%= Calendar.strftime(month, "%B") %> <span class="year"><%= month.year %></span>
-          </div>
-        </div>
+        <.month days_of_month={days_of_month}></.month>
+
         <div class="days">
           <span>Mon</span>
           <span>Tue</span>
@@ -19,7 +16,7 @@
           <span>Sun</span>
         </div>
         <div class="dates">
-          <%= for day <- 1..31 do %>
+          <%= for day <- days_of_month do %>
             <.time_button day={day}></.time_button>
           <% end %>
         </div>

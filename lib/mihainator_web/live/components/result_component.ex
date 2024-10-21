@@ -7,10 +7,6 @@ defmodule MihainatorWeb.ResultComponent do
   def update(assigns, socket) do
     socket = assign(socket, assigns)
 
-    months = get_months(assigns.calendar_dates)
-
-    socket = assign(socket, months: months)
-
     {:ok, socket}
   end
 
@@ -20,16 +16,42 @@ defmodule MihainatorWeb.ResultComponent do
   end
 
   def time_button(assigns) do
+    {day, outgoing} = assigns.day
+
+    state =
+      case outgoing do
+        true -> "bg-green-300"
+        false -> "bg-red-300"
+        _ -> ""
+      end
+
+    assigns = assign(assigns, state: state, day: day.day)
+
     ~H"""
-    <button>
+    <button class={@state}>
       <time><%= @day %></time>
     </button>
     """
   end
 
-  defp get_months(%{first_date: first_date}) do
-    start = Date.beginning_of_month(first_date)
+  def month(assigns) do
+    days_of_month = assigns.days_of_month
 
-    for month_difference <- 0..11, do: Date.shift(start, month: month_difference)
+    day =
+      Enum.at(days_of_month, 0)
+      |> elem(0)
+
+    formatted_month = Calendar.strftime(day, "%B")
+
+    assigns = assign(assigns, formatted_month: formatted_month, year: day.year)
+
+    ~H"""
+    <div class="month">
+      <div>
+        <%= @formatted_month %>
+        <span class="year"><%= @year %></span>
+      </div>
+    </div>
+    """
   end
 end
