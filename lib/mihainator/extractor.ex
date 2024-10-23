@@ -19,24 +19,17 @@ defmodule Mihainator.Extractor do
 
     date_range = Date.range(first_date, last_date)
 
-    interaction_data =
-      raw_data
-      |> Enum.filter(fn {date, _} -> Date.after?(date, first_date) end)
-      |> Map.new()
-      |> get_normalized_interaction_data(date_range)
-      |> Enum.group_by(fn {date, _} ->
-        month =
-          Integer.to_string(date.month)
-          |> String.pad_leading(2, "0")
+    raw_data
+    |> Enum.filter(fn {date, _} -> Date.after?(date, first_date) end)
+    |> Map.new()
+    |> get_normalized_interaction_data(date_range)
+    |> Enum.group_by(fn {date, _} ->
+      month =
+        Integer.to_string(date.month)
+        |> String.pad_leading(2, "0")
 
-        "#{date.year}-#{month}"
-      end)
-
-    %{
-      first_date: first_date,
-      last_date: last_date,
-      interaction_data: interaction_data
-    }
+      "#{date.year}-#{month}"
+    end)
   end
 
   defp get_raw_data(file) do

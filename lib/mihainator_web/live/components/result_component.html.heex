@@ -2,7 +2,7 @@
   <p class="text-lg">This is the result of your history:</p>
 
   <div class="calendar-wrapper">
-    <%= for {_, days_of_month} <- @calendar_dates.interaction_data do %>
+    <%= for {_, days_of_month} <- @calendar_dates do %>
       <div class="calendar">
         <.month days_of_month={days_of_month}></.month>
 
