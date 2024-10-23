@@ -21,7 +21,13 @@ defmodule MihainatorWeb.FileInputComponent do
   @impl true
   def handle_event("save", _params, socket) do
     consume_uploaded_entries(socket, :history, fn %{path: path}, _entry ->
-      Task.async(fn -> Mihainator.Extractor.extract(path) end)
+      dest =
+        System.tmp_dir!()
+        |> Path.join(Path.basename(path))
+
+      File.cp!(path, dest)
+
+      Task.async(fn -> Mihainator.Extractor.extract(dest) end)
 
       {:ok, nil}
     end)
