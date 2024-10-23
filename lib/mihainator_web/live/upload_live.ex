@@ -11,7 +11,6 @@ defmodule MihainatorWeb.UploadLive do
   end
 
   @impl Phoenix.LiveView
-  @spec handle_info({reference(), any()}, any()) :: {:noreply, any()}
   def handle_info({ref, result}, socket) do
     Process.demonitor(ref, [:flush])
 

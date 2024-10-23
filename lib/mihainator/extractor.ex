@@ -5,13 +5,6 @@ defmodule Mihainator.Extractor do
 
   # TODO: unit test
   # TODO: refactor this method
-  @spec extract(
-          binary()
-          | maybe_improper_list(
-              binary() | maybe_improper_list(any(), binary() | []) | char(),
-              binary() | []
-            )
-        ) :: %{first_date: Date.t(), interaction_data: map(), last_date: Date.t()}
   def extract(file) do
     raw_data = get_raw_data(file)
 
