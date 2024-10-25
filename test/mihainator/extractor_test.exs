@@ -7,25 +7,52 @@ defmodule Mihainator.ExtractorTest do
 
   @test_file Path.join([File.cwd!(), "data", "test.csv"])
 
-  test "should get a full year of sorted months" do
-    expected = [
-      "2021-12",
-      "2022-01",
-      "2022-02",
-      "2022-03",
-      "2022-04",
-      "2022-05",
-      "2022-06",
-      "2022-07",
-      "2022-08",
-      "2022-09",
-      "2022-10",
-      "2022-11",
-      "2022-12"
-    ]
-
+  setup_all do
     result = Extractor.extract(@test_file)
 
-    assert Map.keys(result) == expected
+    {:ok, result: result}
+  end
+
+  test "should have a full year's list of days PLUS a month", state do
+    assert Enum.count(state[:result]) == 365 + 31
+  end
+
+  test "should subsequent list of days", state do
+    sorted_map_keys =
+      Map.keys(state[:result])
+      |> Enum.sort()
+
+    first_entry = Enum.at(sorted_map_keys, 0) |> Timex.parse!("{YYYY}-{0M}-{0D}")
+    second_entry = Enum.at(sorted_map_keys, 1) |> Timex.parse!("{YYYY}-{0M}-{0D}")
+
+    assert NaiveDateTime.shift(first_entry, day: 1) == second_entry
+  end
+
+  test "should find communication messages per day", state do
+    expected = [
+      {"2024-07-07",
+       [
+         %{date: ~D[2024-07-07], direction: "in"},
+         %{date: ~D[2024-07-07], direction: "in"},
+         %{date: ~D[2024-07-07], direction: "out"}
+       ]},
+      {"2024-07-09", [%{date: ~D[2024-07-09], direction: "in"}]},
+      {"2024-07-10", [%{date: ~D[2024-07-10], direction: "in"}]},
+      {"2024-09-09",
+       [%{date: ~D[2024-09-09], direction: "out"}, %{date: ~D[2024-09-09], direction: "out"}]},
+      {"2024-09-10",
+       [%{date: ~D[2024-09-10], direction: "out"}, %{date: ~D[2024-09-10], direction: "out"}]},
+      {"2024-09-11",
+       [%{date: ~D[2024-09-11], direction: "in"}, %{date: ~D[2024-09-11], direction: "in"}]},
+      {"2024-09-13",
+       [%{date: ~D[2024-09-13], direction: "in"}, %{date: ~D[2024-09-13], direction: "in"}]}
+    ]
+
+    found_values =
+      state[:result]
+      |> Enum.filter(fn {_key, value} -> Enum.count(value) > 0 end)
+      |> Enum.sort()
+
+    assert found_values == expected
   end
 end

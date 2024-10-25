@@ -54,7 +54,8 @@ defmodule Mihainator.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:csv, "~> 3.2"}
+      {:csv, "~> 3.2"},
+      {:timex, "~> 3.7", only: [:dev, :test], runtime: false}
     ]
   end
 
