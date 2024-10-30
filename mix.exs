@@ -55,7 +55,7 @@ defmodule Mihainator.MixProject do
       {:bandit, "~> 1.5"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:csv, "~> 3.2"},
-      {:timex, "~> 3.7", only: [:dev, :test], runtime: false}
+      {:timex, "~> 3.7"}
     ]
   end
 

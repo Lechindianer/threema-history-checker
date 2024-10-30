@@ -1,10 +1,20 @@
 <div class="flex flex-col space-y-8">
-  <p class="text-lg">This is the result of your history:</p>
+  <p class="text-lg">We've taken a close look at your communication and found out who's more talkative of you both</p>
+
+  <div class="grid grid-cols-6 gap-2">
+    <div class="col-span-1 bg-green-300 rounded"></div>
+    <div class="col-span-5">You</div>
+
+    <div class="col-span-1 bg-red-300 rounded"></div>
+    <div class="col-span-5">Your communication partner</div>
+  </div>
+
+  <p class="text-lg">This is the result:</p>
 
   <div class="calendar-wrapper">
-    <%= for {_, days_of_month} <- @calendar_dates do %>
+    <%= for first_of_month <- @months do %>
       <div class="calendar">
-        <.month days_of_month={days_of_month}></.month>
+        <.month day={first_of_month}></.month>
 
         <div class="days">
           <span>Mon</span>
@@ -16,7 +26,7 @@
           <span>Sun</span>
         </div>
         <div class="dates">
-          <%= for day <- days_of_month do %>
+          <%= for day <- get_days_of_month(assigns, first_of_month) do %>
             <.time_button day={day}></.time_button>
           <% end %>
         </div>
