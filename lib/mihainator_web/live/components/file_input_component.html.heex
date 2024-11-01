@@ -1,4 +1,26 @@
-<div>
+<div class="flex flex-col space-y-8 pt-4  text-slate-700 dark:text-slate-300">
+  <p class="text-lg">
+    Threema history checker allows you to find out who is more communicative from the existing
+    communication between you and your conversation partner.
+  </p>
+
+  <section class="p-4 bg-slate-200 dark:bg-slate-700 rounded-md dark:ring-2 dark:ring-blue-500">
+    <p class="font-bold mb-3">How to create backup files</p>
+
+    <ul class="list-disc p-4">
+      <li>Press ... in the right upper corner</li>
+      <li>Enter "backups"</li>
+      <li>Change to tab "data backup"</li>
+      <li>Follow the steps over there</li>
+    </ul>
+
+    <ul class="list-disc p-4">
+      <li>Use a file explorer app to unzip the backup</li>
+      <li>Inside the contents of the backup file you'll see several CSV files</li>
+      <li>Select one and upload here</li>
+    </ul>
+  </section>
+
   <p class="text-lg">Upload a Threema chat history file (.csv) and see who's more interactive!</p>
 
   <form
@@ -9,20 +31,20 @@
     class="flex flex-col space-y-4"
   >
     <div>
-      <label class="block mb-2 text-sm font-bold text-gray-900" for={@uploads.history.ref}>
+      <label class="block mb-2 text-sm font-bold text-slate-900" for={@uploads.history.ref}>
         CSV file
       </label>
 
       <.live_file_input
         upload={@uploads.history}
-        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+        class="block w-full text-sm text-slate-900 border border-slate-300 rounded-lg cursor-pointer bg-slate-50 focus:outline-none dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400"
       />
     </div>
 
     <button
       :if={@submit_disabled?}
       disabled={@submit_disabled?}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2 place-self-end disabled:opacity-75"
+      class="bg-blue-500 hover:bg-blue-700 text-white dark:text-slate-50 font-bold py-2 px-4 rounded w-1/2 place-self-end disabled:opacity-75"
       type="submit"
     >
       Upload
@@ -30,7 +52,7 @@
 
     <button
       :if={not @submit_disabled?}
-      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2 place-self-end"
+      class="bg-blue-500 hover:bg-blue-700 text-white dark:text-slate-50 font-bold py-2 px-4 rounded w-1/2 place-self-end"
       type="submit"
     >
       Upload

@@ -25,8 +25,8 @@ defmodule MihainatorWeb.ResultComponent do
 
     state =
       cond do
-        length_in < length_out -> "bg-green-300"
-        length_in > length_out -> "bg-red-300"
+        length_in < length_out -> "bg-green-300 dark:text-slate-600"
+        length_in > length_out -> "bg-red-300 dark:text-slate-600"
         true -> ""
       end
 
@@ -47,10 +47,10 @@ defmodule MihainatorWeb.ResultComponent do
     assigns = assign(assigns, formatted_month: formatted_month, year: day.year)
 
     ~H"""
-    <div class="month">
+    <div class="text-center border-b pb-2 text-slate-700 dark:text-slate-300">
       <div>
         <%= @formatted_month %>
-        <span class="year"><%= @year %></span>
+        <span class="font-extrabold"><%= @year %></span>
       </div>
     </div>
     """
