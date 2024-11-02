@@ -30,7 +30,11 @@
         </div>
         <div class="dates grid grid-cols-7">
           <%= for day <- get_days_of_month(assigns, first_of_month) do %>
-            <.time_button day={day}></.time_button>
+            <.live_component
+              module={MihainatorWeb.DayComponent}
+              id={"day_#{elem(day, 0)}"}
+              day={day}
+            />
           <% end %>
         </div>
       </div>
