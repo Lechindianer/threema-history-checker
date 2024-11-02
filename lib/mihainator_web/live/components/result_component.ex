@@ -12,39 +12,28 @@ defmodule MihainatorWeb.ResultComponent do
     {:ok, socket}
   end
 
-  def time_button(assigns) do
-    {day, info} = assigns.day
+  def time_button(%{day: day_info} = assigns) do
+    {day, info} = day_info
+    parsed_day = get_date(day)
 
-    day = get_date(day)
+    classes = get_button_classes(info)
+    style = get_button_style(day)
 
-    {out_messages, in_messages} =
-      Enum.split_with(info, fn %{direction: direction} -> direction == "out" end)
-
-    length_out = length(out_messages)
-    length_in = length(in_messages)
-
-    state =
-      cond do
-        length_in < length_out -> "bg-green-300 dark:text-slate-600"
-        length_in > length_out -> "bg-red-300 dark:text-slate-600"
-        true -> ""
-      end
-
-    assigns = assign(assigns, state: state, day: day.day)
+    assigns = assign(assigns, classes: classes, day: parsed_day.day, style: style)
 
     ~H"""
-    <button class={@state}>
+    <button class={@classes} style={@style}>
       <time><%= @day %></time>
     </button>
     """
   end
 
-  def month(assigns) do
-    day = get_date(assigns.day)
+  def month(%{day: day_info} = assigns) do
+    parsed_day = get_date(day_info)
 
-    formatted_month = day |> Calendar.strftime("%B")
+    formatted_month = parsed_day |> Calendar.strftime("%B")
 
-    assigns = assign(assigns, formatted_month: formatted_month, year: day.year)
+    assigns = assign(assigns, formatted_month: formatted_month, year: parsed_day.year)
 
     ~H"""
     <div class="text-center border-b pb-2 text-slate-700 dark:text-slate-300">
@@ -76,5 +65,30 @@ defmodule MihainatorWeb.ResultComponent do
 
   defp get_date(date) do
     Timex.parse!(date, "{YYYY}-{M}-{D}")
+  end
+
+  defp get_button_classes(info) do
+    {out_messages, in_messages} =
+      Enum.split_with(info, fn %{direction: direction} -> direction == "out" end)
+
+    length_out = length(out_messages)
+    length_in = length(in_messages)
+
+    cond do
+      length_in < length_out -> "bg-green-300 dark:text-slate-600"
+      length_in > length_out -> "bg-red-300 dark:text-slate-600"
+      true -> ""
+    end
+  end
+
+  defp get_button_style(day) do
+    is_first_of_month = String.ends_with?(day, "-01")
+
+    day = get_date(day)
+
+    case is_first_of_month do
+      true -> "grid-column: #{Date.day_of_week(day)}"
+      _ -> ""
+    end
   end
 end

@@ -31,14 +31,6 @@
         margin: 2px;
         transition-duration: .2s;
 
-        &.today {
-            box-shadow: inset 0px 0px 0px 2px #0a3d62;
-        }
-
-        &:first-child {
-            grid-column: 3;
-        }
-
         &:hover {
             background: #eee;
         }
