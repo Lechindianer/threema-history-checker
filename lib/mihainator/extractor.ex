@@ -1,6 +1,6 @@
 defmodule Mihainator.Extractor do
   @moduledoc """
-  This module will take Threema's CSV history file and parse dates / first interaction of day
+  This module will take Threema's CSV history file and parse dates / interaction patterns per day
   """
 
   def extract(file) do
