@@ -1,4 +1,14 @@
-# Mihainator
+# Threema history checker
+
+Threema history checker allows you to find out who is more communicative from the existing communication between you
+and your conversation partner.
+
+![Upload form](/data/screen1.jpg?raw=true "Upload form")
+
+![Result](/data/screen2.jpg?raw=true "Result as calendar")
+
+
+## Development
 
 To start your Phoenix server:
 
@@ -8,11 +18,3 @@ To start your Phoenix server:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
