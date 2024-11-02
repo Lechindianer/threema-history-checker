@@ -20,7 +20,13 @@ defmodule MihainatorWeb.DayComponent do
     classes = get_button_classes(info)
     style = get_button_style(day)
 
-    socket = assign(socket, classes: classes, day: parsed_day.day, style: style)
+    socket =
+      assign(
+        socket,
+        classes: classes,
+        day: parsed_day.day,
+        style: style
+      )
 
     {:ok, socket}
   end

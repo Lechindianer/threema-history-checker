@@ -5,9 +5,12 @@ defmodule MihainatorWeb.ResultComponent do
 
   @impl true
   def update(assigns, socket) do
-    months = get_one_day_for_each_month(assigns.calendar_dates)
-
-    socket = assign(socket, assigns: assigns, months: months)
+    socket =
+      assign(
+        socket,
+        assigns: assigns,
+        months: get_first_day_of_each_month(assigns.calendar_dates)
+      )
 
     {:ok, socket}
   end
@@ -15,9 +18,12 @@ defmodule MihainatorWeb.ResultComponent do
   def month(%{day: day_info} = assigns) do
     parsed_day = get_date(day_info)
 
-    formatted_month = parsed_day |> Calendar.strftime("%B")
-
-    assigns = assign(assigns, formatted_month: formatted_month, year: parsed_day.year)
+    assigns =
+      assign(
+        assigns,
+        formatted_month: Calendar.strftime(parsed_day, "%B"),
+        year: parsed_day.year
+      )
 
     ~H"""
     <div class="text-center border-b pb-2 text-slate-700 dark:text-slate-300">
@@ -41,7 +47,7 @@ defmodule MihainatorWeb.ResultComponent do
     end)
   end
 
-  defp get_one_day_for_each_month(calendar_dates) do
+  defp get_first_day_of_each_month(calendar_dates) do
     Map.keys(calendar_dates)
     |> Enum.sort()
     |> Enum.filter(fn x -> String.ends_with?(x, "-01") end)
