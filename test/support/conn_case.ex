@@ -28,6 +28,7 @@ defmodule MihainatorWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import MihainatorWeb.ConnCase
+      import PhoenixTest
     end
   end
 
