@@ -1,5 +1,7 @@
 # Threema history checker
 
+![workflow](https://github.com/lechindianer/threema-history-checker/actions/workflows/ci.yaml/badge.svg)
+
 Threema history checker allows you to find out who is more communicative from the existing communication between you
 and your conversation partner.
 
