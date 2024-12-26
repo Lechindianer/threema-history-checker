@@ -35,8 +35,7 @@ defmodule Mihainator.MixProject do
       {:phoenix, "~> 1.7.14"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      # TODO bump on release to {:phoenix_live_view, "~> 1.0.0"},
-      {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
+      {:phoenix_live_view, "~> 1.0.1", override: true},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -53,9 +52,10 @@ defmodule Mihainator.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7.10", only: [:dev, :test], runtime: false},
       {:phoenix_test, "~> 0.4.2", only: :test, runtime: false},
       {:csv, "~> 3.2"},
+      # TODO: update when there's an package update to silence compiler warnings
       {:timex, "~> 3.7"}
     ]
   end
