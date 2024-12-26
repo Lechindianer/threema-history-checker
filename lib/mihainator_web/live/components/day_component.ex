@@ -7,7 +7,7 @@ defmodule MihainatorWeb.DayComponent do
   def render(assigns) do
     ~H"""
     <button class={@classes} style={@style}>
-      <time><%= @day %></time>
+      <time>{@day}</time>
     </button>
     """
   end

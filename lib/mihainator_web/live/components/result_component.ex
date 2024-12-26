@@ -28,8 +28,8 @@ defmodule MihainatorWeb.ResultComponent do
     ~H"""
     <div class="text-center border-b pb-2 text-slate-700 dark:text-slate-300">
       <div>
-        <%= @formatted_month %>
-        <span class="font-extrabold"><%= @year %></span>
+        {@formatted_month}
+        <span class="font-extrabold">{@year}</span>
       </div>
     </div>
     """
